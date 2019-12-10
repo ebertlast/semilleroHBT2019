@@ -33,30 +33,41 @@ export class BienvenidaComponent implements OnInit {
     });
 
 
-    this.comicDTO = new ComicDTO();    
-    this.comicDTO.nombre = "BATAMAN";
-    this.comicDTO.editorial = "perro";
-    this.comicDTO.tematica = "no se";
-    this.comicDTO.coleccion = "norma";
-    this.comicDTO.numeroPaginas = 1;
-    this.comicDTO.estado = "INACTIVO";
-    this.comicDTO.precio = 855;
-    this.comicDTO.cantidad = 1;
-    this.comicDTO.tematica = "AVENTURAS"
-    this.comicDTO.autores = "cindyDiego";
-    this.comicDTO.color = true;
+    // this.comicDTO = new ComicDTO();    
+    // this.comicDTO.nombre = "BATAMAN";
+    // this.comicDTO.editorial = "perro";
+    // this.comicDTO.tematica = "no se";
+    // this.comicDTO.coleccion = "norma";
+    // this.comicDTO.numeroPaginas = 1;
+    // this.comicDTO.estado = "INACTIVO";
+    // this.comicDTO.precio = 855;
+    // this.comicDTO.cantidad = 1;
+    // this.comicDTO.tematica = "AVENTURAS"
+    // this.comicDTO.autores = "cindyDiego";
+    // this.comicDTO.color = true;
 
     
-    this.ejemploService.crearComic(this.comicDTO).subscribe(respuesta => {
-      console.log(respuesta);
+    // this.ejemploService.crearComic(this.comicDTO).subscribe(respuesta => {
+    //   console.log(respuesta);
+    // });
+
+
+    let miMapa: Map<string, string>;
+    miMapa = new Map<string, string>();
+    miMapa.set("1", "semillero");
+    miMapa.forEach(key=>element => {
+      console.log(key,element)
     });
 
    
   }
 
-  public ejecucionEventoClick( parametroEvento : any, numero : number ) : void {
+  public ejecucionEventoClick(parametroEvento : any, numero : number ) : void {
     alert("Hola: " + parametroEvento + ' ' + numero);
-    
+  }
+
+  private obtenerTipoDatoYValor(opcionRetorno: number): string {
+    return "";
   }
 
 }
