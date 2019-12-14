@@ -18,6 +18,7 @@ import org.apache.log4j.Logger;
 
 import com.hbt.semillero.dto.ComicDTO;
 import com.hbt.semillero.entidad.Comic;
+import com.hbt.semillero.exceptions.ComicException;
 
 /**
  * <b>Descripción:<b> Clase que determina el bean para realizar las gestion de
@@ -31,13 +32,12 @@ import com.hbt.semillero.entidad.Comic;
 public class GestionarComicBean implements IGestionarComicLocal {
 
 	final static Logger logger = Logger.getLogger(GestionarComicBean.class);
-	
+
 	/**
 	 * Atributo em que se usa para interacturar con el contexto de persistencia.
 	 */
 	@PersistenceContext
 	private EntityManager em;
-	
 
 	/**
 	 * 
@@ -57,11 +57,11 @@ public class GestionarComicBean implements IGestionarComicLocal {
 	 */
 	@TransactionAttribute(TransactionAttributeType.REQUIRED)
 	public void modificarComic(Long id, String nombre, ComicDTO comicNuevo) {
-		Comic comicModificar ;
-		if(comicNuevo==null) {
+		Comic comicModificar;
+		if (comicNuevo == null) {
 			// Entidad a modificar
 			comicModificar = em.find(Comic.class, id);
-		}else {
+		} else {
 			comicModificar = convertirComicDTOToComic(comicNuevo);
 		}
 		comicModificar.setNombre(nombre);
@@ -74,10 +74,22 @@ public class GestionarComicBean implements IGestionarComicLocal {
 	 */
 	@TransactionAttribute(TransactionAttributeType.REQUIRED)
 	public void eliminarComic(Long idComic) {
-		Comic comicEliminar = em.find(Comic.class, idComic);
-		if (comicEliminar != null) {
-			em.remove(comicEliminar);
+		try {
+			boolean x = false;
+			x = true;
+			if (x) {
+				throw new Exception("Pruebas de Desarrollo");
+			}
+
+			Comic comicEliminar = em.find(Comic.class, idComic);
+			if (comicEliminar != null) {
+				em.remove(comicEliminar);
+			}
+		} catch (Exception e) {
+			logger.error("Error al intentar eliminar el comic: " + e.getMessage());
+			//throw new ComicException("COD-001", "Un error ha ocurrido al intentar eliminar un comic", e);
 		}
+
 	}
 
 	/**
@@ -104,7 +116,7 @@ public class GestionarComicBean implements IGestionarComicLocal {
 		List<ComicDTO> resultadosComicDTO = new ArrayList<ComicDTO>();
 		@SuppressWarnings("unchecked")
 		List<Comic> resultados = em.createQuery("select c from Comic c").getResultList();
-		for (Comic comic:resultados) {
+		for (Comic comic : resultados) {
 			resultadosComicDTO.add(convertirComicToComicDTO(comic));
 		}
 		return resultadosComicDTO;
@@ -119,8 +131,8 @@ public class GestionarComicBean implements IGestionarComicLocal {
 	 */
 	private ComicDTO convertirComicToComicDTO(Comic comic) {
 		ComicDTO comicDTO = new ComicDTO();
-		if(comic.getId()!=null) {
-		 comicDTO.setId(comic.getId().toString());
+		if (comic.getId() != null) {
+			comicDTO.setId(comic.getId().toString());
 		}
 		comicDTO.setNombre(comic.getNombre());
 		comicDTO.setEditorial(comic.getEditorial());
@@ -145,7 +157,7 @@ public class GestionarComicBean implements IGestionarComicLocal {
 	 */
 	private Comic convertirComicDTOToComic(ComicDTO comicDTO) {
 		Comic comic = new Comic();
-		if(comicDTO.getId()!=null) {
+		if (comicDTO.getId() != null) {
 			comic.setId(Long.parseLong(comicDTO.getId()));
 		}
 		comic.setNombre(comicDTO.getNombre());

@@ -32,6 +32,16 @@ public interface IGestionarPersonajeLocal {
 	 * 
 	 */
 	public void modificarPersonaje(Long personajeID, String nombre, PersonajeDTO personajeModificado);
+	
+	
+	/**
+	 * 
+	 * Metodo encargado de guardar un personaje ya editado
+	 * @author Ebert Zerpa
+	 * @param personajeModificado informacion modificada a guardar
+	 * 
+	 */
+	public void editarPersonaje(PersonajeDTO personajeModificado);
 
 	/**
 	 * 

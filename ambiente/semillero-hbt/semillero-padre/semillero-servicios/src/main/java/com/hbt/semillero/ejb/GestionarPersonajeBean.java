@@ -13,9 +13,11 @@ import javax.ejb.TransactionManagement;
 import javax.ejb.TransactionManagementType;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
 
 import org.apache.log4j.Logger;
 
+import com.hbt.semillero.dto.ComicDTO;
 import com.hbt.semillero.dto.PersonajeDTO;
 import com.hbt.semillero.entidad.Comic;
 import com.hbt.semillero.entidad.EstadoEnum;
@@ -40,7 +42,6 @@ public class GestionarPersonajeBean implements IGestionarPersonajeLocal {
 	@PersistenceContext
 	private EntityManager em;
 
-
 	/**
 	 * 
 	 * @see com.hbt.semillero.ejb.IGestionarPersonajeLocal#crearPersonaje(com.hbt.semillero.dto.PersonajeDTO)
@@ -60,14 +61,41 @@ public class GestionarPersonajeBean implements IGestionarPersonajeLocal {
 	 */
 	@TransactionAttribute(TransactionAttributeType.REQUIRED)
 	public void modificarPersonaje(Long id, String nombre, PersonajeDTO personajeNuevo) {
-		//		Personaje personajeModificar;
-		//		if(personajeNuevo==null) {
-		//			personajeModificar = em.find(Personaje.class, id);
-		//		}else {
-		//			personajeModificar = convertirPersonajeDTOToPersonaje(personajeNuevo);
-		//		}
-		//		personajeModificar.setNombre(nombre);
-		//		em.merge(personajeModificar);
+		Personaje personajeModificar;
+		if(personajeNuevo==null) {
+			personajeModificar = em.find(Personaje.class, id);
+		}else {
+			personajeModificar = convertirPersonajeDTOToPersonaje(personajeNuevo);
+		}
+		personajeModificar.setNombre(nombre);
+		em.merge(personajeModificar);
+	}
+
+	/**
+	 * 
+	 * @see com.hbt.semillero.ejb.IGestionarPersonajeLocal#modificarPersonaje(com.hbt.semillero.dto.PersonajeDTO)
+	 */
+	@TransactionAttribute(TransactionAttributeType.REQUIRED)
+	public void editarPersonaje(PersonajeDTO personajeEditado) {
+		Personaje personajeEncontrado;
+		if(personajeEditado.getId()==null) {
+			// Manejar una excepción aquí
+		}else {
+			personajeEncontrado = em.find(Personaje.class, personajeEditado.getId());
+			if(personajeEncontrado==null) {
+				// Manejar una excepción aquí
+			}else {			
+				Comic comic=new Comic();
+				comic.setId(personajeEditado.getIdComic());
+				personajeEncontrado.setComic(comic);
+				personajeEncontrado.setEstado(personajeEditado.getEstado());
+				personajeEncontrado.setId(personajeEditado.getId());
+				personajeEncontrado.setNombre(personajeEditado.getNombre());
+				personajeEncontrado.setSuperPoder(personajeEditado.getSuperPoder());
+				em.merge(personajeEncontrado);
+			}
+		}
+
 	}
 
 	/**
@@ -76,10 +104,22 @@ public class GestionarPersonajeBean implements IGestionarPersonajeLocal {
 	 */
 	@TransactionAttribute(TransactionAttributeType.REQUIRED)
 	public void eliminarPersonaje(Long idPersonaje) {
+		/* Opción 1 */
 		Personaje personajeEliminar = em.find(Personaje.class, idPersonaje);
 		if (personajeEliminar != null) {
+			System.out.println("Se ha encontrado el personaje a Eliminar");
 			em.remove(personajeEliminar);
+		}else {
+			System.out.println("No se ha encontrado el personaje a Eliminar");
 		}
+		em.flush();
+		em.clear();
+
+		/* Opción 2 */
+		// Query query = em.createQuery("DELETE FROM Personaje p WHERE p.id = :idPersonaje").setParameter("idPersonaje",
+		// 		idPersonaje);
+		// query.executeUpdate();
+
 	}
 
 	/**
@@ -101,23 +141,23 @@ public class GestionarPersonajeBean implements IGestionarPersonajeLocal {
 	 */
 	@TransactionAttribute(TransactionAttributeType.NOT_SUPPORTED)
 	public List<PersonajeDTO> consultarPersonajes() {
-		//logger.debug("This is debug message");
-		//logger.info("This is info message");
-		//logger.warn("This is warn message");
-		//logger.fatal("This is fatal message");
-		//logger.error("This is error message");
+		// logger.debug("This is debug message");
+		// logger.info("This is info message");
+		// logger.warn("This is warn message");
+		// logger.fatal("This is fatal message");
+		// logger.error("This is error message");
 		List<PersonajeDTO> resultadosPersonajeDTO = new ArrayList<PersonajeDTO>();
-		//		PersonajeDTO p=new PersonajeDTO();
-		//		p.setEstado(EstadoEnum.ACTIVO);
-		//		p.setId((long) 1);
-		//		p.setIdComic((long) 1);
-		//		p.setNombre("Pruebas de Desarrollo");
-		//		p.setSuperPoder("Pruebas de Desarrollo");
-		//		resultadosPersonajeDTO.add(p);
+		// PersonajeDTO p=new PersonajeDTO();
+		// p.setEstado(EstadoEnum.ACTIVO);
+		// p.setId((long) 1);
+		// p.setIdComic((long) 1);
+		// p.setNombre("Pruebas de Desarrollo");
+		// p.setSuperPoder("Pruebas de Desarrollo");
+		// resultadosPersonajeDTO.add(p);
 
 		@SuppressWarnings("unchecked")
 		List<Personaje> resultados = em.createQuery("select p from Personaje p").getResultList();
-		for (Personaje personaje:resultados) {
+		for (Personaje personaje : resultados) {
 			resultadosPersonajeDTO.add(convertirPersonajeToPersonajeDTO(personaje));
 		}
 		return resultadosPersonajeDTO;
@@ -140,7 +180,6 @@ public class GestionarPersonajeBean implements IGestionarPersonajeLocal {
 		personaje.setSuperPoder(personajeDTO.getSuperPoder());
 		return personaje;
 	}
-
 
 	/**
 	 * 

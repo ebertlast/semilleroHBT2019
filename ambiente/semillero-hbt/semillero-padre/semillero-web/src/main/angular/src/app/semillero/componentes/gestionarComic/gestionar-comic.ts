@@ -19,7 +19,7 @@ export class GestionarComicComponent implements OnInit {
     /**
      * Atributo que contiene los controles del formulario
      */
-    public gestionarComicForm : FormGroup;
+    public gestionarComicForm: FormGroup;
 
     /**
      * Atributo que contendra la informacion del comic
@@ -29,30 +29,30 @@ export class GestionarComicComponent implements OnInit {
     /**
      * Atributo que contendra la lista de comics creados
      */
-    public listaComics : Array<ComicDTO>;
+    public listaComics: Array<ComicDTO>;
 
-    public idComic : number = 0;
+    public idComic: number = 0;
 
     /**
      * Atributo que indica si se envio a validar el formulario
      */
-    public submitted : boolean;
+    public submitted: boolean;
 
     /**
      * @description Este es el constructor del componente GestionarComicComponent
      * @author Diego Fernando Alvarez Silva <dalvarez@heinsohn.com.co>
      */
-    constructor(private fb : FormBuilder,
-        private router : Router) {
+    constructor(private fb: FormBuilder,
+        private router: Router) {
         this.gestionarComicForm = this.fb.group({
-            nombre : [null, Validators.required],
-            editorial : [null],
-            tematica : [null],
-            coleccion : [null],
-            numeroPaginas : [null],
-            precio : [null],
-            autores : [null],
-            color : [null]
+            nombre: [null, Validators.required],
+            editorial: [null],
+            tematica: [null],
+            coleccion: [null],
+            numeroPaginas: [null],
+            precio: [null],
+            autores: [null],
+            color: [null]
         });
     }
 
@@ -69,9 +69,9 @@ export class GestionarComicComponent implements OnInit {
     /**
      * @description Metodo que permite validar el formulario y crear o actulizar un comic
      */
-    public crearActualizarComic() : void {
+    public crearActualizarComic(): void {
         this.submitted = true;
-        if(this.gestionarComicForm.invalid) {
+        if (this.gestionarComicForm.invalid) {
             return;
         }
         this.idComic++;
@@ -85,17 +85,17 @@ export class GestionarComicComponent implements OnInit {
         this.comic.precio = this.gestionarComicForm.controls.precio.value;
         this.comic.autores = this.gestionarComicForm.controls.autores.value;
         this.comic.color = this.gestionarComicForm.controls.color.value;
-        
+
         this.listaComics.push(this.comic);
         this.limpiarFormulario();
-        
+
     }
 
     /**
      * Metodo que permite consultar un comic de la tabla y sus detalles e inhabilitar el formulario
      * @param posicion en la lista del comic seleccionado
      */
-    public consultarComic(posicion : number) : void {
+    public consultarComic(posicion: number): void {
         let comic = this.listaComics[posicion];
         this.gestionarComicForm.controls.nombre.setValue(comic.nombre);
         this.gestionarComicForm.controls.editorial.setValue(comic.editorial);
@@ -113,15 +113,15 @@ export class GestionarComicComponent implements OnInit {
         this.gestionarComicForm.controls.precio.disable();
         this.gestionarComicForm.controls.autores.disable();
         this.gestionarComicForm.controls.color.disable();
-//        this.gestionarComicForm.controls.color.enable(); para habilitar el campo
+        //        this.gestionarComicForm.controls.color.enable(); para habilitar el campo
 
     }
 
-    public editarComic(comic : any) : void {
-        this.router.navigate(['bienvenida',comic]);
+    public editarComic(comic: any): void {
+        this.router.navigate(['bienvenida', comic]);
     }
 
-    private limpiarFormulario() : void {
+    private limpiarFormulario(): void {
         this.submitted = false;
         this.gestionarComicForm.controls.nombre.setValue(null);
         this.gestionarComicForm.controls.editorial.setValue(null);
@@ -137,7 +137,7 @@ export class GestionarComicComponent implements OnInit {
      * @description Metodo que obtiene los controles y sus propiedades
      * @author Diego Fernando Alvarez Silva
      */
-    get f() { 
+    get f() {
         return this.gestionarComicForm.controls;
     }
 }

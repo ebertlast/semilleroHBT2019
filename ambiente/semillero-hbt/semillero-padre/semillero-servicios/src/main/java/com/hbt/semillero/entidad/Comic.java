@@ -3,6 +3,7 @@
  */
 package com.hbt.semillero.entidad;
 
+import java.beans.Transient;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.time.LocalDate;
@@ -47,6 +48,9 @@ public class Comic implements Serializable {
 	private LocalDate fechaVenta;
 	private EstadoEnum estadoEnum;
 	private Long cantidad;
+	
+//	@Transient
+//	private 
 
 	/**
 	 * Constructor de la clase.
