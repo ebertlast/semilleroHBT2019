@@ -2,7 +2,7 @@
 import { ComicDTO } from '../../dto/comic.dto';
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
-import { Router } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
 
 /**
  * @description Componenete gestionar comic, el cual contiene la logica CRUD
@@ -39,11 +39,21 @@ export class GestionarComicComponent implements OnInit {
     public submitted: boolean;
 
     /**
+     * Guarda el ultimo comic eliminado para ser mostrado como un alerta
+     */
+    public comicEliminado: ComicDTO;
+
+    /**
+     * Permite seguir viendo el mensaje de alerta de eliminado o descartarlo de la pantalla.
+     */
+    public mostrarMensaje: boolean;
+
+    /**
      * @description Este es el constructor del componente GestionarComicComponent
      * @author Diego Fernando Alvarez Silva <dalvarez@heinsohn.com.co>
      */
     constructor(private fb: FormBuilder,
-        private router: Router) {
+        private router: Router, private activatedRoute: ActivatedRoute) {
         this.gestionarComicForm = this.fb.group({
             nombre: [null, Validators.required],
             editorial: [null],
@@ -54,6 +64,7 @@ export class GestionarComicComponent implements OnInit {
             autores: [null],
             color: [null]
         });
+
     }
 
     /**
@@ -64,6 +75,26 @@ export class GestionarComicComponent implements OnInit {
         console.log("Ingreso al al evento oninit");
         this.comic = new ComicDTO();
         this.listaComics = new Array<ComicDTO>();
+
+        let comic = this.activatedRoute.snapshot.params;
+        if (comic && comic.nombre) {
+            this.gestionarComicForm.controls.nombre.setValue(comic.nombre);
+            this.gestionarComicForm.controls.editorial.setValue(comic.editorial);
+            this.gestionarComicForm.controls.tematica.setValue(comic.tematica);
+            this.gestionarComicForm.controls.coleccion.setValue(comic.coleccion);
+            this.gestionarComicForm.controls.numeroPaginas.setValue(comic.numeroPaginas);
+            this.gestionarComicForm.controls.precio.setValue(comic.precio);
+            this.gestionarComicForm.controls.autores.setValue(comic.autores);
+            this.gestionarComicForm.controls.color.setValue(comic.color);
+            this.gestionarComicForm.controls.nombre.enable();
+            this.gestionarComicForm.controls.editorial.enable();
+            this.gestionarComicForm.controls.tematica.enable();
+            this.gestionarComicForm.controls.coleccion.enable();
+            this.gestionarComicForm.controls.numeroPaginas.enable();
+            this.gestionarComicForm.controls.precio.enable();
+            this.gestionarComicForm.controls.autores.enable();
+            this.gestionarComicForm.controls.color.enable();
+        }
     }
 
     /**
@@ -74,21 +105,39 @@ export class GestionarComicComponent implements OnInit {
         if (this.gestionarComicForm.invalid) {
             return;
         }
-        this.idComic++;
-        this.comic = new ComicDTO();
-        this.comic.id = this.idComic + "";
-        this.comic.nombre = this.gestionarComicForm.controls.nombre.value;
-        this.comic.editorial = this.gestionarComicForm.controls.editorial.value;
-        this.comic.tematica = this.gestionarComicForm.controls.tematica.value;
-        this.comic.coleccion = this.gestionarComicForm.controls.coleccion.value;
-        this.comic.numeroPaginas = this.gestionarComicForm.controls.numeroPaginas.value;
-        this.comic.precio = this.gestionarComicForm.controls.precio.value;
-        this.comic.autores = this.gestionarComicForm.controls.autores.value;
-        this.comic.color = this.gestionarComicForm.controls.color.value;
+        let comics: Array<ComicDTO> = [];
+        if (this.comic && this.comic.nombre) {
+            comics = this.listaComics.filter(x => x.nombre == this.gestionarComicForm.controls.nombre.value);
+        }
+        if (comics.length > 0) {
+            let indice: number = this.listaComics.findIndex(x => x === comics[0]);
+            this.comic = this.listaComics[indice];
+            this.comic.nombre = this.gestionarComicForm.controls.nombre.value;
+            this.comic.editorial = this.gestionarComicForm.controls.editorial.value;
+            this.comic.tematica = this.gestionarComicForm.controls.tematica.value;
+            this.comic.coleccion = this.gestionarComicForm.controls.coleccion.value;
+            this.comic.numeroPaginas = this.gestionarComicForm.controls.numeroPaginas.value;
+            this.comic.precio = this.gestionarComicForm.controls.precio.value;
+            this.comic.autores = this.gestionarComicForm.controls.autores.value;
+            this.comic.color = this.gestionarComicForm.controls.color.value;
 
-        this.listaComics.push(this.comic);
+            this.listaComics[indice] = this.comic;
+
+        } else {
+            this.idComic++;
+            this.comic = new ComicDTO();
+            this.comic.id = this.idComic + "";
+            this.comic.nombre = this.gestionarComicForm.controls.nombre.value;
+            this.comic.editorial = this.gestionarComicForm.controls.editorial.value;
+            this.comic.tematica = this.gestionarComicForm.controls.tematica.value;
+            this.comic.coleccion = this.gestionarComicForm.controls.coleccion.value;
+            this.comic.numeroPaginas = this.gestionarComicForm.controls.numeroPaginas.value;
+            this.comic.precio = this.gestionarComicForm.controls.precio.value;
+            this.comic.autores = this.gestionarComicForm.controls.autores.value;
+            this.comic.color = this.gestionarComicForm.controls.color.value;
+            this.listaComics.push(this.comic);
+        }
         this.limpiarFormulario();
-
     }
 
     /**
@@ -97,6 +146,29 @@ export class GestionarComicComponent implements OnInit {
      */
     public consultarComic(posicion: number): void {
         let comic = this.listaComics[posicion];
+        // this.gestionarComicForm.controls.nombre.setValue(comic.nombre);
+        // this.gestionarComicForm.controls.editorial.setValue(comic.editorial);
+        // this.gestionarComicForm.controls.tematica.setValue(comic.tematica);
+        // this.gestionarComicForm.controls.coleccion.setValue(comic.coleccion);
+        // this.gestionarComicForm.controls.numeroPaginas.setValue(comic.numeroPaginas);
+        // this.gestionarComicForm.controls.precio.setValue(comic.precio);
+        // this.gestionarComicForm.controls.autores.setValue(comic.autores);
+        // this.gestionarComicForm.controls.color.setValue(comic.color);
+        // this.gestionarComicForm.controls.nombre.disable();
+        // this.gestionarComicForm.controls.editorial.disable();
+        // this.gestionarComicForm.controls.tematica.disable();
+        // this.gestionarComicForm.controls.coleccion.disable();
+        // this.gestionarComicForm.controls.numeroPaginas.disable();
+        // this.gestionarComicForm.controls.precio.disable();
+        // this.gestionarComicForm.controls.autores.disable();
+        // this.gestionarComicForm.controls.color.disable();
+        //        this.gestionarComicForm.controls.color.enable(); para habilitar el campo
+        this.router.navigate(['consultar-comic', comic]);
+
+    }
+
+    public editarComic(comic: any): void {
+        this.comic = comic;
         this.gestionarComicForm.controls.nombre.setValue(comic.nombre);
         this.gestionarComicForm.controls.editorial.setValue(comic.editorial);
         this.gestionarComicForm.controls.tematica.setValue(comic.tematica);
@@ -105,20 +177,6 @@ export class GestionarComicComponent implements OnInit {
         this.gestionarComicForm.controls.precio.setValue(comic.precio);
         this.gestionarComicForm.controls.autores.setValue(comic.autores);
         this.gestionarComicForm.controls.color.setValue(comic.color);
-        this.gestionarComicForm.controls.nombre.disable();
-        this.gestionarComicForm.controls.editorial.disable();
-        this.gestionarComicForm.controls.tematica.disable();
-        this.gestionarComicForm.controls.coleccion.disable();
-        this.gestionarComicForm.controls.numeroPaginas.disable();
-        this.gestionarComicForm.controls.precio.disable();
-        this.gestionarComicForm.controls.autores.disable();
-        this.gestionarComicForm.controls.color.disable();
-        //        this.gestionarComicForm.controls.color.enable(); para habilitar el campo
-
-    }
-
-    public editarComic(comic: any): void {
-        this.router.navigate(['bienvenida', comic]);
     }
 
     private limpiarFormulario(): void {
@@ -139,5 +197,17 @@ export class GestionarComicComponent implements OnInit {
      */
     get f() {
         return this.gestionarComicForm.controls;
+    }
+
+    private eliminarComic(comic: ComicDTO): void {
+        this.mostrarMensaje = false;
+        this.comicEliminado = comic;
+        // ubicamos el indice del comic dentro de la lista
+        let indice: number = this.listaComics.findIndex(c => c === comic);
+        // Quitamos el comic de la pila
+        this.listaComics.splice(indice, 1);
+        // Mostrar el mensaje que se ha eliminado el libro
+        this.mostrarMensaje = true;
+
     }
 }
