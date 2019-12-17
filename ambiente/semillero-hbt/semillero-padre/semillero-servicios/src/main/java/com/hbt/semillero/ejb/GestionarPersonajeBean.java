@@ -17,7 +17,6 @@ import javax.persistence.Query;
 
 import org.apache.log4j.Logger;
 
-import com.hbt.semillero.dto.ComicDTO;
 import com.hbt.semillero.dto.PersonajeDTO;
 import com.hbt.semillero.entidad.Comic;
 import com.hbt.semillero.entidad.EstadoEnum;
@@ -165,7 +164,7 @@ public class GestionarPersonajeBean implements IGestionarPersonajeLocal {
 
 	/**
 	 * 
-	 * Metodo encargado de transformar un personaje a un personajeDTO
+	 * Metodo encargado de transformar un PersonajeDTO a un Personaje
 	 * 
 	 * @param personaje
 	 * @return
@@ -185,8 +184,8 @@ public class GestionarPersonajeBean implements IGestionarPersonajeLocal {
 	 * 
 	 * Metodo encargado de transformar un Personaje a un PerosnajeDTO
 	 * 
-	 * @param comic
-	 * @return
+	 * @param Objeto de tipo Personaje
+	 * @return Objeto de tipo PersonajeDTO
 	 */
 	private PersonajeDTO convertirPersonajeToPersonajeDTO(Personaje personaje) {
 		PersonajeDTO personajeDTO = new PersonajeDTO();

@@ -51,7 +51,9 @@ public class Personaje implements Serializable {
 	@JoinColumn(name = "PERS_ID_COMIC")
 	private Comic comic;
 	
-		
+	/**
+	 * Estado del registro
+	 */	
 	@Column(name="PERS_ESTADO")
 	@Enumerated(value = EnumType.STRING)
 	private EstadoEnum estado;
@@ -60,7 +62,7 @@ public class Personaje implements Serializable {
 	private String superPoder; // Super Poder
 	
 	
-	/*
+	/**
 	 * Constructor de la clase
 	 */
 	public Personaje() {	
