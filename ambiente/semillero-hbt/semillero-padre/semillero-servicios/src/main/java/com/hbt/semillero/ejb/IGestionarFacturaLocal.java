@@ -1,8 +1,11 @@
 package com.hbt.semillero.ejb;
 
+import java.util.List;
+
 import javax.ejb.Local;
 
 import com.hbt.semillero.dto.FacturaDTO;
+import com.hbt.semillero.dto.TotalVentasDTO;
 
 /**
  * Expone los métodos del EJB GestionarFactura 
@@ -17,4 +20,6 @@ public interface IGestionarFacturaLocal {
 	 * @param factura datos del comic y de la persona
 	 */
 	public void agregarVenta(FacturaDTO factura);
+	
+	public List<FacturaDTO> listarVentas(Long idComic);
 }

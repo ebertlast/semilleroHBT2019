@@ -1,0 +1,81 @@
+<h1>Ventas de Comics</h1>
+<div class="btn-group" role="group" aria-label="Basic example"
+  *ngIf="tipoVista!='nuevaVenta'">
+  <button type="button" class="btn btn-secondary" [ngClass]="{'btn-primary':
+    tipoVista=='ventas'}" (click)="tipoVista='ventas'">Detallado</button>
+  <button type="button" class="btn btn-secondary" [ngClass]="{'btn-primary':
+    tipoVista=='resumen'}" (click)="tipoVista='resumen'">Resumido</button>
+</div>
+<div *ngIf="tipoVista=='ventas'">
+  <h3>Detalles</h3>
+  <table class="table">
+    <thead>
+      <tr>
+        <th scope="col">Venta</th>
+        <th scope="col">Cliente</th>
+        <th scope="col">Comic</th>
+        <th scope="col">Fecha</th>
+        <th scope="col">Precio</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let v of listaVentas">
+        <th scope="row">{{v.id}}</th>
+        <td>{{v.persona.nombre}}</td>
+        <td>{{v.comic.nombre}}</td>
+        <td>{{v.fecha | date}}</td>
+        <td>COP {{v.comic.precio}}</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+<div *ngIf="tipoVista=='resumen'">
+  <h3>Resumen</h3>
+  <!-- {{resumirVentas}} -->
+  <div class="row">
+    <div class="col-3 font-weight-bold text-center">Comic</div>
+    <div class="col-3 font-weight-bold text-center">Unidades Vendidas</div>
+    <div class="col-3 font-weight-bold text-right">Valor Unitario</div>
+    <div class="col-3 font-weight-bold text-right">Total Ventas del Comic</div>
+  </div>
+  <div class="row" *ngFor="let v of resumirVentas">
+    <div class="col-3">{{v.nombre}}</div>
+    <div class="col-3 text-center">{{v.totalVentas}}</div>
+    <div class="col-3 text-right">{{v.precio}}</div>
+    <div class="col-3 text-right">{{v.totalVentas*v.precio}}</div>
+  </div>
+  <div class="row">
+    <div class="col-11 font-weight-bolder text-right">Total Ventas</div>
+    <div class="col-1 font-weight-bolder text-right">{{totalVentas}}</div>
+  </div>
+</div>
+
+<div *ngIf="tipoVista=='nuevaVenta'">
+  <form [formGroup]="gestionarVentaForm">
+    <div class="row">
+      <div class="col-6">
+        <div class="form-group">
+          <label for="persona">Cliente:</label>
+          <select class="form-control" id="persona"
+            formControlName="persona">
+            <option [value]="p.id" *ngFor="let p of listaPersonas">{{p.nombre}} ({{p.documento}})</option>
+          </select>
+        </div>
+      </div>
+      <div class="col-6">
+        <div class="form-group">
+          <label for="comic">Cliente:</label>
+          <select class="form-control" id="comic"
+            formControlName="comic">
+            <option [value]="c.id" *ngFor="let c of listaComics">{{c.id}}.- {{c.nombre}}</option>
+          </select>
+        </div>
+      </div>
+    </div>
+  </form>
+  <button type="button" class="btn btn-secondary" (click)="tipoVista='resumen'">Regresar</button>
+  <button type="button" class="btn btn-success" (click)="vender()">Vender</button>
+</div>
+
+<button type="button" class="btn btn-success" *ngIf="tipoVista!='nuevaVenta'"
+  (click)="tipoVista='nuevaVenta'">Nueva Venta</button>

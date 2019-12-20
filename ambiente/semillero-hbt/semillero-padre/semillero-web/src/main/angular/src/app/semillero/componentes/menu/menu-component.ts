@@ -45,7 +45,7 @@ export class MenuComponent implements OnInit {
   }
 
   public navegarGestionarCompra(): void {
-    //WIP
+    this.router.navigate(['gestionar-ventas']);
   }
 
   /**
@@ -54,5 +54,13 @@ export class MenuComponent implements OnInit {
    */
   public navegarGestionarRoles(): void {
     this.router.navigate(['gestionar-roles']);
+  }
+
+  /**
+   * @description Direccionar al componente de gestionar persona
+   * @author Ebert Manuel Zerpa Figueroa <ebert15@hotmail.com>
+   */
+  public navegarGestionarPersonas(): void {
+    this.router.navigate(['gestionar-personas']);
   }
 }

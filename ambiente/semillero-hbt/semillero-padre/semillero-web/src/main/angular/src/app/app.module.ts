@@ -15,6 +15,8 @@ import { GestionarComicComponent } from './semillero/componentes/gestionarComic/
 import { ConsultarComicComponent } from './semillero/componentes/consultarComic/consultar-comic';
 import { MostrarCiudadComponent } from './semillero/componentes/mostrarCiudad/mostrar-ciudad-component';
 import { GestionarRolesComponent } from './semillero/componentes/gestionarRoles/gestionar-roles';
+import { GestionarPersonaComponent } from './semillero/componentes/gestionarPersona/gestionar-persona';
+import { GestionarVentaComponent } from './semillero/componentes/gestionarVenta/gestionar-venta';
 
 // DTOs
 export { ComicDTO } from './semillero/dto/comic.dto';
@@ -25,6 +27,8 @@ export { ResultadoDTO } from './semillero/dto/resultado.dto';
 import { EjemploService } from './semillero/services/ejemplo.service';
 import { GestionarComicsService } from './semillero/services/gestionar-comics.service';
 import { GestionarRolesService } from './semillero/services/gestionar-roles.service';
+import { GestionarPersonasService } from './semillero/services/gestionar-personas.service';
+import { GestionarVentasService } from './semillero/services/gestionar-ventas.service';
 import { AbstractService } from './semillero/services/template.service';
 
 @NgModule({
@@ -36,7 +40,9 @@ import { AbstractService } from './semillero/services/template.service';
     GestionarComicComponent,
     ConsultarComicComponent,
     MostrarCiudadComponent,
-    GestionarRolesComponent
+    GestionarRolesComponent,
+    GestionarPersonaComponent,
+    GestionarVentaComponent
   ],
   imports: [
     BrowserModule,

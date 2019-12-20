@@ -1,0 +1,116 @@
+<h1>Gestionar Clientes</h1>
+<div *ngIf="modoVista=='lista'">
+  <table class="table">
+    <thead>
+      <tr>
+        <th scope="col">#</th>
+        <th scope="col">Tipo de Documento</th>
+        <th scope="col">Identificación</th>
+        <th scope="col">Razón Social</th>
+        <th></th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let p of listaPersonas">
+        <th scope="row">{{p.id}}</th>
+        <td>{{p.tipoDocumento.replace("_"," ")}}</td>
+        <td>{{p.documento}}</td>
+        <td>{{p.nombre}}</td>
+        <td>
+          <i class="fas fa-search 2x ml-1" style="cursor:pointer"
+            (click)="consultarPersona(p)"
+            title="Consultar"></i>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+  <button (click)="modoVista='nuevo'" type="button" class="btn btn-success">Nuevo
+    cliente</button>
+</div>
+
+<div *ngIf="modoVista=='ver'">
+  <div class="card">
+    <div class="card-header">{{persona.nombre}}</div>
+    <div class="card-body">
+      <h5 class="card-title">{{persona.tipoDocumento.toLowerCase().replace('_','
+        ')}} {{persona.documento}}</h5>
+      <p class="card-text">{{persona.fnacimiento}}</p>
+      <button (click)="modoVista='lista'" type="button" class="btn
+        btn-secondary">Regresar</button>
+      <!-- &nbsp;
+      <button (click)="modoVista='lista'" type="button" class="btn btn-primary">Editar</button> -->
+      <!-- &nbsp; -->
+      <!-- <button (click)="modoVista='lista'" type="button" class="btn btn-success">Vender
+        Comic</button> -->
+    </div>
+  </div>
+  <!-- <button (click)="modoVista='lista'" type="button" class="btn btn-primary">Regresar</button> -->
+  <!-- <button type="button" class="btn btn-link">Link</button> -->
+</div>
+
+<div *ngIf="modoVista=='nuevo'">
+  <h1>Nuevo cliente</h1>
+  <form [formGroup]="gestionarPersonaForm">
+    <div class="row">
+      <div class="col-6">
+        <label for="nombrePersona">Nombre:</label>
+        <input type="text" class="form-control" id="nombrePersona"
+          formControlName="nombre"
+          [ngClass]="{ 'is-invalid': submitted && f.nombre.errors }"
+          maxlength="50">
+        <div *ngIf="submitted && f.nombre.errors">
+          <span class="text-danger" *ngIf="f.nombre.errors.required">Campo
+            requerido.</span>
+        </div>
+      </div>
+
+      <div class="col-6">
+        <label for="nombrePersona">Fecha de Nacimiento:</label>
+        <input type="date" class="form-control" id="fnacimiento"
+          formControlName="fnacimiento"
+          [ngClass]="{ 'is-invalid': submitted && f.fnacimiento.errors }">
+        <div *ngIf="submitted && f.fnacimiento.errors">
+          <span class="text-danger" *ngIf="f.fnacimiento.errors.required">Campo
+            requerido.</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-6">
+        <div class="form-group">
+          <label for="tipoDocumento">Tipo de Documento:</label>
+          <select class="form-control" id="tipoDocumento"
+            formControlName="tipoDocumento">
+            <option value="CEDULA_CIUDADANIA">Cédula de Ciudadanía</option>
+            <option value="CEDULA_EXTRANJERIA">Cédula de Extranjería</option>
+            <option value="PASAPORTE">Pasaporte</option>
+            <option value="OTRO">Otro</option>
+          </select>
+        </div>
+      </div>
+      <div class="col-6">
+        <label for="tipoDocumento">Documento de Identidad:</label>
+        <input type="text" class="form-control" id="documento"
+          formControlName="documento"
+          [ngClass]="{ 'is-invalid': submitted && f.documento.errors }"
+          maxlength="50">
+        <div *ngIf="submitted && f.documento.errors">
+          <span class="text-danger" *ngIf="f.documento.errors.required">Campo
+            requerido.</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-6">
+        <span></span>
+      </div>
+      <div class="col-6 text-right">
+        <button type="button" class="btn btn-success"
+          (click)="crearPersona()">Confirmar</button>
+      </div>
+    </div>
+  </form>
+  <button (click)="regresar()" type="button" class="btn btn-secondary">Regresar</button>
+</div>

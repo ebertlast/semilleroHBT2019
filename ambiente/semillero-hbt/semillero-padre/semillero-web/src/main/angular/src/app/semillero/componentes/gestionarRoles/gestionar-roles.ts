@@ -5,12 +5,11 @@ import { RolDTO } from '../../dto/rol.dto';
 /**
  * @description Componenete gestionar comic, el cual contiene la logica CRUD
  * 
- * @author Diego Fernando Alvarez Silva <dalvarez@heinsohn.com.co>
+ * @author Ebert Manuel Zerpa Figueroa <ebert15@hotmail.com>
  */
 @Component({
   selector: 'gestionar-roles',
   templateUrl: './gestionar-roles.html',
-  // styleUrls: ['./gestionar-roles.css']
 })
 
 export class GestionarRolesComponent implements OnInit {
