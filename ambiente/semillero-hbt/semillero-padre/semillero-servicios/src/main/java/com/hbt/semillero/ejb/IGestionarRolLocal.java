@@ -59,5 +59,9 @@ public interface IGestionarRolLocal {
 	 * 
 	 */
 	public void editarRol(RolDTO rolEditado);
+	
+	default void defaultMethod() {
+		System.out.println("Interface A default method");
+	}
 }
 

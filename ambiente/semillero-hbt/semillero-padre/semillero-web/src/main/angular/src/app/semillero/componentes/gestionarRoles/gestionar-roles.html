@@ -1,0 +1,21 @@
+<h1>Gestionar Roles</h1>
+<table class="table">
+  <thead>
+    <tr>
+      <th scope="col">#</th>
+      <th scope="col">Nombre</th>
+      <th scope="col">Estado</th>
+      <th>Acciones</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let rol of listaRoles">
+      <th scope="row">{{rol.id}}</th>
+      <td>{{rol.nombre}}</td>
+      <td>{{rol.estado}}</td>
+      <td><i class="fas fa-search 2x ml-1" style="cursor:pointer"
+        (click)="consultarRol(rol)"
+        title="Consultar"></i></td>
+    </tr>
+  </tbody>
+</table>

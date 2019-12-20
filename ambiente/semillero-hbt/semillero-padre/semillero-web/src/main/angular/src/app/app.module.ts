@@ -1,7 +1,7 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { HttpModule} from '@angular/http';
+import { HttpModule } from '@angular/http';
 import { HttpClientModule, HttpClient } from '@angular/common/http';
 import { AppRoutingModule } from './app-routing.module';
 import { APP_BASE_HREF } from '@angular/common';
@@ -14,6 +14,7 @@ import { CrearPersonaComponent } from './semillero/componentes/crearPersona/crea
 import { GestionarComicComponent } from './semillero/componentes/gestionarComic/gestionar-comic';
 import { ConsultarComicComponent } from './semillero/componentes/consultarComic/consultar-comic';
 import { MostrarCiudadComponent } from './semillero/componentes/mostrarCiudad/mostrar-ciudad-component';
+import { GestionarRolesComponent } from './semillero/componentes/gestionarRoles/gestionar-roles';
 
 // DTOs
 export { ComicDTO } from './semillero/dto/comic.dto';
@@ -21,8 +22,10 @@ export { ResultadoDTO } from './semillero/dto/resultado.dto';
 
 //Manejo de servicios
 
-import {EjemploService} from './semillero/services/ejemplo.service';
-import {AbstractService} from './semillero/services/template.service';
+import { EjemploService } from './semillero/services/ejemplo.service';
+import { GestionarComicsService } from './semillero/services/gestionar-comics.service';
+import { GestionarRolesService } from './semillero/services/gestionar-roles.service';
+import { AbstractService } from './semillero/services/template.service';
 
 @NgModule({
   declarations: [
@@ -32,7 +35,8 @@ import {AbstractService} from './semillero/services/template.service';
     CrearPersonaComponent,
     GestionarComicComponent,
     ConsultarComicComponent,
-    MostrarCiudadComponent
+    MostrarCiudadComponent,
+    GestionarRolesComponent
   ],
   imports: [
     BrowserModule,
@@ -43,10 +47,10 @@ import {AbstractService} from './semillero/services/template.service';
     ReactiveFormsModule
   ],
   providers: [
-  	{ provide: APP_BASE_HREF, useValue: '/SemilleroHBT' }
+    { provide: APP_BASE_HREF, useValue: '/SemilleroHBT' }
   ],
   bootstrap: [AppComponent]
 })
-export class AppModule { 
+export class AppModule {
 
 }

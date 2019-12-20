@@ -79,8 +79,17 @@ public class GestionarRolRest {
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Path("/nuevoRol")
 	public ResultadoDTO nuevoRol(RolDTO rolNuevo) {
-		gestionarRolEJB.nuevoRol(rolNuevo);
-		ResultadoDTO resultadoDTO = new ResultadoDTO(Boolean.TRUE, "Rol creado exitosamente");
+		ResultadoDTO resultadoDTO=new ResultadoDTO();
+		try {
+			gestionarRolEJB.nuevoRol(rolNuevo);			
+			resultadoDTO.setExitoso(Boolean.TRUE);
+			resultadoDTO.setMensajeEjecucion("Rol creado exitosamente");
+		}catch (Exception e) {
+			resultadoDTO.setExitoso(Boolean.FALSE);
+			resultadoDTO.setMensajeEjecucion(e.getMessage());
+		}
+
+
 		return resultadoDTO;
 	}
 

@@ -47,4 +47,12 @@ export class MenuComponent implements OnInit {
   public navegarGestionarCompra(): void {
     //WIP
   }
+
+  /**
+   * @description Direccionar al componente de gestionar roles
+   * @author Ebert Manuel Zerpa Figueroa <ebert15@hotmail.com>
+   */
+  public navegarGestionarRoles(): void {
+    this.router.navigate(['gestionar-roles']);
+  }
 }

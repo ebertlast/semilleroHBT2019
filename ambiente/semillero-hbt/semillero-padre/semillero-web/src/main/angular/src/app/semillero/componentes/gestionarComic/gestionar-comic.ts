@@ -3,6 +3,7 @@ import { ComicDTO } from '../../dto/comic.dto';
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { Router, ActivatedRoute } from '@angular/router';
+import { GestionarComicsService } from '../../services/gestionar-comics.service';
 
 /**
  * @description Componenete gestionar comic, el cual contiene la logica CRUD
@@ -53,7 +54,9 @@ export class GestionarComicComponent implements OnInit {
      * @author Diego Fernando Alvarez Silva <dalvarez@heinsohn.com.co>
      */
     constructor(private fb: FormBuilder,
-        private router: Router, private activatedRoute: ActivatedRoute) {
+        private router: Router, private activatedRoute: ActivatedRoute,
+        private gestionarComicsService: GestionarComicsService
+    ) {
         this.gestionarComicForm = this.fb.group({
             nombre: [null, Validators.required],
             editorial: [null],
@@ -85,7 +88,7 @@ export class GestionarComicComponent implements OnInit {
             this.gestionarComicForm.controls.numeroPaginas.setValue(comic.numeroPaginas);
             this.gestionarComicForm.controls.precio.setValue(comic.precio);
             this.gestionarComicForm.controls.autores.setValue(comic.autores);
-            this.gestionarComicForm.controls.color.setValue(comic.color);
+            this.gestionarComicForm.controls.color.setValue(comic.color.toString());
             this.gestionarComicForm.controls.nombre.enable();
             this.gestionarComicForm.controls.editorial.enable();
             this.gestionarComicForm.controls.tematica.enable();
@@ -95,6 +98,14 @@ export class GestionarComicComponent implements OnInit {
             this.gestionarComicForm.controls.autores.enable();
             this.gestionarComicForm.controls.color.enable();
         }
+
+        this.gestionarComicsService.consultarComics().subscribe(res => {
+            // console.log(res);
+            res.forEach(comic => {
+                this.listaComics.push(comic);
+            });
+        })
+
     }
 
     /**

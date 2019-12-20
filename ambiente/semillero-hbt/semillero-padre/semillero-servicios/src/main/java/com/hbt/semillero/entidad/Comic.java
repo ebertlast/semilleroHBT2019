@@ -58,6 +58,10 @@ public class Comic implements Serializable {
 	public Comic() {
 
 	}
+	
+	public Comic(Long id) {
+		this.id = id;
+	}
 
 	/**
 	 * Metodo encargado de retornar el valor del atributo id

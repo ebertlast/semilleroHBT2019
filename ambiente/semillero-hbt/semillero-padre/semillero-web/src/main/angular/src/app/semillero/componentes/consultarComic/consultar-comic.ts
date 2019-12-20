@@ -84,6 +84,8 @@ export class ConsultarComicComponent implements OnInit {
    * @description Regresa al listado de comics con el comic para que se vea exactamente antes de llegar a la ventana de consulta
    */
   public regresar() {
+    this.comic.color = (this.comic.color.toString() == "true");
+    // console.log(this.comic)
     this.router.navigate(['gestionar-comic', this.comic]);
   }
 
